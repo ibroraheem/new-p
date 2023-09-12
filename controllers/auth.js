@@ -193,4 +193,27 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { signup, verifyEmail, login }
+const updateProfile = async (req, res) => {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const errorMessages = errors.array().map(error => error.msg)
+            return res.status(422).json({ errors: errorMessages })
+        }
+        const { firstName, lastName, gender, role, bio, companyIndustry } = req.body
+        const user = req.user
+        user.firstName = firstName
+        user.lastName = lastName
+        user.gender = gender
+        user.role = role
+        user.bio = bio
+        user.companyIndustry = companyIndustry
+        await user.save()
+        res.status(200).json({ message: "User updated", user })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
+
+module.exports = { signup, verifyEmail, login, updateProfile }
