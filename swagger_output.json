@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "nervous-ox-slip.cyclic.app",
   "basePath": "/",
   "schemes": [
     "https"
