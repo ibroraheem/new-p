@@ -43,16 +43,33 @@ const UserSchema = new mongoose.Schema({
         type: [String]
     },
     socials: {
-        type: [String]
+        linkedin: {
+            type: String,
+        },
+        website: {
+            type: String,
+        },
+        twitter: {
+            type: String,
+        }
     },
     headshot: {
         type: String
-    }, 
+    },
     otp: {
         type: String,
     },
-    otpExpires:{
+    passwordToken: {
+        type: String,
+    },
+    passwordTokenExpires: {
+        type: Date,
+    },
+    otpExpires: {
         type: Date
+    },
+    url: {
+        type: String,
     }
 },
     { timestamps: true }

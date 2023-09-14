@@ -2,8 +2,10 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator');
+const crypto = require('crypto');
 const nodemailer = require('nodemailer')
 require('dotenv').config()
+const baseUrl = 'https://nervous-ox-slip.cyclic.app/'
 
 const signup = async (req, res) => {
     try {
@@ -23,11 +25,11 @@ const signup = async (req, res) => {
                 email: email,
                 password: hashedPassword
             },
+            url: baseUrl + email.split('@')[0],
             otp: otp.toString(),
             otpExpires: Date.now() + 10 * 60 * 60
         });
         await newUser.save();
-        console.log(newUser);
         const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' })
         const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -141,11 +143,11 @@ const signup = async (req, res) => {
         };
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(error);
                 res.status(500).json({ message: error.message });
             } else {
+                console.log(token, email, newUser.url)
                 console.log("Email sent: " + info.response);
-                res.status(201).json({ message: 'Successfully registered', token, email })
+                res.status(201).json({ message: 'Successfully registered', token, email, url: newUser.url })
             }
         })
     } catch (error) {
@@ -195,18 +197,21 @@ const login = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
+        const { firstName, lastName, gender, role, bio, companyIndustry, topics, headshot, socials } = req.body
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const errorMessages = errors.array().map(error => error.msg)
             return res.status(422).json({ errors: errorMessages })
         }
-        const { firstName, lastName, gender, role, bio, companyIndustry } = req.body
         const user = req.user
         user.firstName = firstName
         user.lastName = lastName
         user.gender = gender
+        user.headshot = headshot
         user.role = role
         user.bio = bio
+        user.topics = topics
+        user.socials = socials
         user.companyIndustry = companyIndustry
         await user.save()
         res.status(200).json({ message: "User updated", user })
@@ -216,4 +221,135 @@ const updateProfile = async (req, res) => {
     }
 }
 
-module.exports = { signup, verifyEmail, login, updateProfile }
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const errorMessages = errors.array().map(error => error.msg)
+            return res.status(422).json({ errors: errorMessages })
+        }
+        const user = await User.findOne({ email: email })
+        const name = user.firstName
+        if (!user) return res.status(404).json({ errors: "User does not exist" })
+        const generateToken = () => {
+            return crypto.randomBytes(32).toString('hex');
+        };
+        const passwordToken = generateToken()
+        const passwordTokenExpires = Date.now() + 60 * 60 * 10
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD,
+            },
+        });
+        const mailContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+        </head>
+        <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+        <tr>
+        <td>
+        <img src="https://i.postimg.cc/4mPZLqqV/Spikkr-Logo.png">
+        </td>
+    </tr>
+        </tr>
+        <tr><td height="40"></td></tr>
+        <tr>
+            <td style="color: #202124; font-size: 20px; font-family: Arial, sans-serif; font-weight: 500; line-height: 28px;">Reset your password</td>
+        </tr>
+        <tr><td height="12"></td></tr>
+        <tr>
+            <td style="width: 343px; color: #5C6570; font-size: 14px; font-family: Arial, sans-serif; font-weight: 300; line-height: 19.60px;">Hi ${name},<br/><br/>You recently tried to request a password change from for your account. As a security measure, you need to click the link below to verify your identity <br/></td>
+        </tr>
+        <tr><td height="12"></td></tr>
+        <tr>
+            <td style="width: 166px; color: #58CEA2; font-size: 14px; font-family: Arial, sans-serif; font-weight: 500;">${baseUrl}${passwordToken}</td>
+        </tr>
+        <tr><td height="12"></td></tr>
+        <tr>
+            <td style="width: 343px; color: #5C6570; font-size: 14px; font-family: Arial, sans-serif; font-weight: 300; line-height: 19.60px;"><br/>If you do not recognize this activity, please contact us at support@spikkr.com or simply reply to this email to secure your account.<br/><br/>Warm regards,<br/>Spikkr</td>
+        </tr>
+        <tr><td height="40"></td></tr>
+        <tr>
+            <td style="color: #999999; font-size: 12px; font-family: Arial, sans-serif; font-weight: 400; line-height: 16.80px; text-align: center;">Copyright © 2023</td>
+        </tr>
+        <tr>
+            <td bgcolor="#032628" style="padding: 8px 0; border-radius: 8px;">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="color: white; font-size: 12px; font-family: Arial, sans-serif; font-weight: 400; line-height: 16.80px; text-align: center;">Follow us on social media</td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                        <table align="center" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                            <!-- Social icons with links -->
+                                <td>
+                                    <a href="https://twitter.com/spikkr" target="_blank"><img src="https://i.postimg.cc/Wd4VQScK/twitter.png" alt="Twitter" class="social-icon" background="#FFDE6A"></a>
+                                    <a href="https://linkedin.com/in/spikkr" target="_blank"><img src="https://i.postimg.cc/GHddjd7b/linkedin.png" alt="LinkedIn" class="social-icon" background="#FFDE6A"></a>
+                                </td>
+                            </tr>
+                      </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+        </html>`
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: "Spikkr - Password Reset",
+            html: mailContent
+        };
+        user.passwordToken = passwordToken;
+        user.passwordTokenExpires = passwordTokenExpires;
+        await user.save();
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                res.status(500).json({ message: error.message });
+            } else {
+                console.log("Email sent: " + info.response);
+                res.status(200).json({ message: 'Password reset email sent successfully', email })
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
+
+const resetPassword = async (req, res) => {
+    try {
+        const { token, password } = req.body
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const errorMessages = errors.array().map(error => error.msg)
+            return res.status(422).json({ errors: errorMessages })
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findOne({ email: decoded.email })
+        if (!user) return res.status(404).json({ message: "User not found" })
+        if (Date.now < user.passwordTokenExpires) return res.status(403).json({ message: "Token has expired" })
+        if (token !== user.passwordToken) return res.status(404).json({ message: "Invalid Token" })
+        const hashedPassword = bcrypt.hashSync(password, 12)
+        user.password = hashedPassword
+        user.passwordToken = null
+        user.passwordTokenExpires = null
+        await user.save()
+        res.status(200).json({ message: "Password changed successfully" })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
+
+module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword }
