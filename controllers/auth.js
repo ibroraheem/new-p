@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 require('dotenv').config()
-const baseUrl = 'https://nervous-ox-slip.cyclic.app/'
+const baseUrl = 'http://localhost:5000/'
 
 const signup = async (req, res) => {
     try {
@@ -38,7 +38,8 @@ const signup = async (req, res) => {
                 pass: process.env.PASSWORD,
             },
         });
-        const mailContent = `<!DOCTYPE html>
+        const welcomeMessage = `
+<!DOCTYPE html>
         <html>
         <head>
             <meta charset="UTF-8">
@@ -134,7 +135,8 @@ const signup = async (req, res) => {
             </table>
         </body>
         </html>
-            `
+`
+        const mailContent = welcomeMessage
         const mailOptions = {
             from: process.env.EMAIL,
             to: email,
@@ -244,57 +246,98 @@ const forgotPassword = async (req, res) => {
                 pass: process.env.PASSWORD,
             },
         });
-        const mailContent = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-        </head>
-        <table width="100%" cellspacing="0" cellpadding="0">
+
+        const resetPass = `<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            color: #202124;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 28px;
+        }
+
+        .message {
+            color: #5C6570;
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 19.60px;
+        }
+
+        .otp {
+            color: #58CEA2;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .footer {
+            color: #5C6570;
+            font-size: 14px;
+            padding-top: 12px;
+        }
+
+        .copyright {
+            color: #999999;
+            font-size: 12px;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .follow-text {
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            padding-top: 8px;
+        }
+
+        .social-icon {
+            width: 24px;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <table width="100%" cellspacing="0" cellpadding="20">
         <tr>
-        <tr>
-        <td>
-        <img src="https://i.postimg.cc/4mPZLqqV/Spikkr-Logo.png">
-        </td>
-    </tr>
+            <td>
+                <img src="https://i.postimg.cc/4mPZLqqV/Spikkr-Logo.png" style="display: block; margin-left: 0; margin-right: auto;">
+            </td>
         </tr>
-        <tr><td height="40"></td></tr>
         <tr>
-            <td style="color: #202124; font-size: 20px; font-family: Arial, sans-serif; font-weight: 500; line-height: 28px;">Reset your password</td>
+            <td class="header">Reset your password</td>
         </tr>
-        <tr><td height="12"></td></tr>
         <tr>
-            <td style="width: 343px; color: #5C6570; font-size: 14px; font-family: Arial, sans-serif; font-weight: 300; line-height: 19.60px;">Hi ${name},<br/><br/>You recently tried to request a password change from for your account. As a security measure, you need to click the link below to verify your identity <br/></td>
+            <td class="message">Hi ${name},<br><br>You recently tried to request a password change for your account. As a security measure, you need to click the link below to verify your identity:</td>
         </tr>
-        <tr><td height="12"></td></tr>
         <tr>
-            <td style="width: 166px; color: #58CEA2; font-size: 14px; font-family: Arial, sans-serif; font-weight: 500;">${baseUrl}${passwordToken}</td>
+            <td style="color: #58CEA2; font-size: 14px; font-weight: 500;">${baseUrl}${passwordToken}</td>
         </tr>
-        <tr><td height="12"></td></tr>
         <tr>
-            <td style="width: 343px; color: #5C6570; font-size: 14px; font-family: Arial, sans-serif; font-weight: 300; line-height: 19.60px;"><br/>If you do not recognize this activity, please contact us at support@spikkr.com or simply reply to this email to secure your account.<br/><br/>Warm regards,<br/>Spikkr</td>
+            <td class="footer">If you do not recognize this activity, please contact us at support@spikkr.com or simply reply to this email to secure your account.<br><br>Warm regards,<br>Spikkr</td>
         </tr>
-        <tr><td height="40"></td></tr>
         <tr>
-            <td style="color: #999999; font-size: 12px; font-family: Arial, sans-serif; font-weight: 400; line-height: 16.80px; text-align: center;">Copyright © 2023</td>
+            <td class="copyright">Copyright © 2023</td>
         </tr>
         <tr>
             <td bgcolor="#032628" style="padding: 8px 0; border-radius: 8px;">
-                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <div class="follow-text">Follow us on social media</div>
+                <table align="center" cellspacing="0" cellpadding="0" border="0">
                     <tr>
-                        <td style="color: white; font-size: 12px; font-family: Arial, sans-serif; font-weight: 400; line-height: 16.80px; text-align: center;">Follow us on social media</td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                        <table align="center" cellspacing="0" cellpadding="0" border="0">
-                            <tr>
-                            <!-- Social icons with links -->
-                                <td>
-                                    <a href="https://twitter.com/spikkr" target="_blank"><img src="https://i.postimg.cc/Wd4VQScK/twitter.png" alt="Twitter" class="social-icon" background="#FFDE6A"></a>
-                                    <a href="https://linkedin.com/in/spikkr" target="_blank"><img src="https://i.postimg.cc/GHddjd7b/linkedin.png" alt="LinkedIn" class="social-icon" background="#FFDE6A"></a>
-                                </td>
-                            </tr>
-                      </table>
+                        <!-- Social icons with links -->
+                        <td>
+                            <a href="https://twitter.com/spikkr" target="_blank"><img src="https://i.postimg.cc/Wd4VQScK/twitter.png" alt="Twitter" class="social-icon"></a>
+                            <a href="https://linkedin.com/in/spikkr" target="_blank"><img src="https://i.postimg.cc/GHddjd7b/linkedin.png" alt="LinkedIn" class="social-icon"></a>
                         </td>
                     </tr>
                 </table>
@@ -302,7 +345,12 @@ const forgotPassword = async (req, res) => {
         </tr>
     </table>
 </body>
-        </html>`
+
+</html>`
+
+
+
+        const mailContent = resetPass
         const mailOptions = {
             from: process.env.EMAIL,
             to: email,
@@ -352,4 +400,20 @@ const resetPassword = async (req, res) => {
     }
 }
 
-module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword }
+const getMe = async (req, res) => {
+    const user = req.user
+    res.status(200).json({
+        id: user._id,
+        name: user.firstName + " " + user.lastName,
+        gender: user.gender,
+        role: user.role,
+        bio: user.bio,
+        country: user.country,
+        companyIndustry: user.companyIndustry,
+        topics: user.topics,
+        socials: user.socials,
+        headshot: user.headshot,
+        url: user.url,
+    })
+}
+module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe }
