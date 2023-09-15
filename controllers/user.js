@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const Event = require('../models/events')
+const Event = require('../models/events');
+const PressKit = require('../models/pressKit');
 require('dotenv').config()
 const baseUrl = 'http://localhost:5000/'
 
@@ -480,5 +481,37 @@ const getUser = async (req, res) => {
     }
 }
 
+const getUserPressKit = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.params.id })
+        if (!user) return res.status(404).json({ message: "User not found" })
+        const pressKit = await PressKit.findOne({ user: req.params.id })
+        if (!pressKit) return res.status(404).json({ message: "Press kit not found for user" })
+        res.status(200).json({ message: "Successful", pressKit })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
 
-module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe, getUserEvents, searchUser, getUsers, getUser } 
+const createEvent = async (req, res) => {
+    try {
+        const { title, details, tags, media, date } = req.body
+        const user = req.user
+        const event = await Event.findOne({ user: user._id, title: title })
+        if (event) return res.status(403).json({ message: "Event exists" })
+        const newEvent = new Event({
+            title: title,
+            details: details,
+            tags: tags,
+            media: media,
+            date: date,
+        })
+        await event.save()
+        res.status(201).json({ message: "Event created successfully", event: newEvent })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: message.error })
+    }
+}
+module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe, getUserEvents, searchUser, getUsers, getUser, getUserPressKit, createEvent } 
