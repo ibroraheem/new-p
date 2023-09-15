@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.status(200).send("Hello World!");
 });
-app.use('/', require('./routes/auth'))
+app.use('/', require('./routes/user'))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 const port = process.env.PORT
 connectDB()
