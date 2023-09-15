@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const Event = require('../models/events')
 require('dotenv').config()
 const baseUrl = 'http://localhost:5000/'
 
@@ -416,4 +417,17 @@ const getMe = async (req, res) => {
         url: user.url,
     })
 }
-module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe }
+
+const getUserEvents = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const events = await Event.findOne({ user: userId }).sort({ created_at: -1 })
+        if (!events) return res.status(404).json({ message: 'No events found for this User' })
+        res.status(200).json({ message: 'Events fetched Successfully', events })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
+
+module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe, getUserEvents }
