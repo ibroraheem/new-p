@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "nervous-ox-slip.cyclic.app/",
+  "host": "nervous-ox-slip.cyclic.app",
   "basePath": "/",
   "schemes": [
     "https"
