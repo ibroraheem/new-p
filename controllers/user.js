@@ -17,8 +17,10 @@ const signup = async (req, res) => {
             return res.status(422).json({ errors: errorMessages })
         }
         const { email, password } = req.body
-        const user = await User.findOne({ email: email })
-        if (user) return res.status(401).json({ message: "User Already exists!" })
+        const user = await User.findOne({ 'local.email': email })
+        if (user) {
+            console.log("user already exists")
+            return res.status(401).json({ message: "User Already exists!" }) }
         const hashedPassword = bcrypt.hashSync(password, 12)
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
         const newUser = new User({
@@ -514,4 +516,10 @@ const createEvent = async (req, res) => {
         res.status(500).json({ message: message.error })
     }
 }
+
+const signupGoogle = async (req, res) => {
+
+}
+
+
 module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe, getUserEvents, searchUser, getUsers, getUser, getUserPressKit, createEvent } 
