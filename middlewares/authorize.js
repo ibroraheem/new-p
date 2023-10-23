@@ -9,7 +9,6 @@ const authorizeUser = async (req, res, next) => {
         if (!token)
             return res.status(403).json({ message: "Token is required" });
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded.email);
         if (!decoded.email)
             return res.status(403).json({ message: "Invalid Token" });
         const user = await User.findOne({ email: decoded.email })

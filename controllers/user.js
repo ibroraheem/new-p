@@ -24,6 +24,7 @@ const signup = async (req, res) => {
         }
         const hashedPassword = bcrypt.hashSync(password, 12)
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        const otpExpires = Date.now() + 10 * 3600
         const newUser = new User({
             method: 'local',
             local: {
@@ -32,7 +33,7 @@ const signup = async (req, res) => {
             },
             url: baseUrl + email.split('@')[0],
             otp: otp.toString(),
-            otpExpires: Date.now() + 10 * 60 * 60
+            otpExpires: otpExpires
         });
         await newUser.save();
         const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' })
@@ -173,7 +174,7 @@ const verifyEmail = async (req, res) => {
         const { otp } = req.body
         const user = req.user
         if (otp !== user.otp) return res.status(400).json({ message: 'Invalid OTP' })
-        if (otpExpires < Date.now()) return res.status(400).json({ message: "OTP Expired" })
+        if (user.otpExpires > Date.now()) return res.status(400).json({ message: "OTP Expired" })
         user.isVerified = true
         user.otp = null
         user.save()
