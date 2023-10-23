@@ -35,7 +35,7 @@ const signup = async (req, res) => {
             otpExpires: Date.now() + 10 * 60 * 60
         });
         await newUser.save();
-        const token = jwt.sign({ email: user.local.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' })
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -172,7 +172,7 @@ const verifyEmail = async (req, res) => {
         }
         const { otp } = req.body
         const user = req.user
-        if (user.otp !== otp) return res.status(403).json({ message: 'Invalid otp' })
+        
         user.isVerified = true
         user.otp = null
         user.save()
