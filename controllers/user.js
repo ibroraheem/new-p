@@ -35,7 +35,7 @@ const signup = async (req, res) => {
             otpExpires: Date.now() + 10 * 60 * 60
         });
         await newUser.save();
-        const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        const token = jwt.sign({ email: user.local.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -194,7 +194,7 @@ const login = async (req, res) => {
         if (!user) return res.status(404).json({ message: "User has not registered" })
         const isMatch = bcrypt.compare(password, user.local.password)
         if (!isMatch) return res.status(403).json({ message: "Incorrect Password" })
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        const token = jwt.sign({ email: user.local.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
         res.status(200).json({ message: "Login successful", token: token, email: user.local.email, firstName: user.firstName, lastName: user.lastName })
     } catch (error) {
         console.log(error)
