@@ -178,7 +178,9 @@ const verifyEmail = async (req, res) => {
         if (user.otpExpires > Date.now()) return res.status(400).json({ message: "OTP Expired" })
         user.isVerified = true
         user.otp = null
+        user.isVerified = true
         user.save()
+        
         res.status(200).json({ message: 'Email verified successfully' })
     } catch (error) {
         console.log(error)

@@ -40,4 +40,5 @@ const isEmailVerified = async (req, res, next) => {
     }
 }
 
+
 module.exports = { authorizeUser, isEmailVerified };
