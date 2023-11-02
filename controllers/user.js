@@ -32,7 +32,7 @@ const signup = async (req, res) => {
                 password: hashedPassword
             },
             url: baseUrl + email.split('@')[0],
-            otp: otp.toString(),
+            otp: otp,
             otpExpires: otpExpires
         });
         await newUser.save();
@@ -173,6 +173,7 @@ const verifyEmail = async (req, res) => {
         }
         const { otp } = req.body
         const user = req.user
+        console.log(user.otp)
         if (otp !== user.otp) return res.status(400).json({ message: 'Invalid OTP' })
         if (user.otpExpires > Date.now()) return res.status(400).json({ message: "OTP Expired" })
         user.isVerified = true
