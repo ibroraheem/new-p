@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(cors(
     {
-        origin: 'https://spikkr-nextjs.vercel.app',
+        origin: '*',
         methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'x-access-token', 'X-Requested-With', 'Accept', 'Access-Control-Allow-Headers', 'Access-Control-Request-Headers', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
     }
