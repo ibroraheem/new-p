@@ -22,7 +22,7 @@ const signup = async (req, res) => {
             console.log("user already exists")
             return res.status(401).json({ message: "User Already exists!" })
         }
-        const hashedPassword = bcrypt.hashSync(password, 12)
+        const hashedPassword = await bcrypt.hash(password, 10)
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
         const otpExpires = Date.now() + 10 * 3600
         const newUser = new User({
@@ -195,8 +195,8 @@ const login = async (req, res) => {
         const { email, password } = req.body
         const user = await User.findOne({ 'local.email': email })
         if (!user) return res.status(404).json({ message: "User has not registered" })
-        const isMatch = bcrypt.compare(password, user.local.password)
-        if (!isMatch) return res.status(403).json({ message: "Incorrect Password" })
+        const isMatch = await bcrypt.compare(password, user.local.password)
+        if(!isMatch) return res.status(403).json({ message: "Invalid Password"})
         const token = jwt.sign({ email: user.local.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
         res.status(200).json({ message: "Login successful", token: token, email: user.local.email, firstName: user.firstName, lastName: user.lastName })
     } catch (error) {
