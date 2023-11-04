@@ -859,7 +859,7 @@ const resetPassword = async (req, res) => {
         const user = await User.findOne({ resetToken: token });
 
         if (!user) return res.status(404).json({ message: "User not found" });
-        if (Date.now() > user.resetTokenExpires) return res.status(403).json({ message: "Token has expired" });
+        if (Date.now() < user.resetTokenExpires) return res.status(403).json({ message: "Token has expired" });
 
         // Hash the new password
         const hashedPassword = bcrypt.hashSync(password, 12);
