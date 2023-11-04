@@ -966,4 +966,4 @@ const signupGoogle = async (req, res) => {
 }
 
 
-module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe, getUserEvents, searchUser, getUsers, getUser, getUserPressKit, createEvent } 
+module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, searchUser, getUsers, getUser, getUserPressKit, createEvent } 

@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router();
 
 const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
-const { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, getMe, getUserEvents, searchUser, getUsers, getUser, getUserPressKit, createEvent } = require('../controllers/user')
+const { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, searchUser, getUsers, getUser, getUserPressKit, createEvent } = require('../controllers/user')
 
 router.post('/register', [
     check('email').isEmail().withMessage('Must be a valid email address'),
@@ -14,8 +14,6 @@ router.post('/login', login);
 router.post('/profile-update', isEmailVerified, updateProfile);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
-router.get('/me', authorizeUser, getMe);
-router.get('/events/:id', getUserEvents);
 router.get('/users/:query', searchUser);
 router.get('/users/', getUsers);
 router.get('/users/:id', getUser)
