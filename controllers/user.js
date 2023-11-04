@@ -855,17 +855,12 @@ const resetPassword = async (req, res) => {
             return res.status(422).json({ errors: errorMessages });
         }
 
-        // Find the user based on the provided reset token
         const user = await User.findOne({ resetToken: token });
 
         if (!user) return res.status(404).json({ message: "User not found" });
         if (Date.now() < user.resetTokenExpires) return res.status(403).json({ message: "Token has expired" });
-
-        // Hash the new password
-        const hashedPassword = bcrypt.hashSync(password, 12);
-
-        // Update the user's password and reset token fields
-        user.password = hashedPassword;
+        const hashedPassword = bcrypt.hashSync(password, 10);
+        user.local.password = hashedPassword;
         user.resetToken = null;
         user.resetTokenExpires = null;
         await user.save();
