@@ -26,18 +26,23 @@ const UserSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
+        default: " "
     },
     role: {
         type: String,
+        default: " "
     },
     bio: {
         type: String,
+        default: " "
     },
     country: {
         type: String,
+        default: " "
     },
     companyIndustry: {
         type: String,
+        default: " "
     },
     topics: {
         type: [String]
@@ -45,12 +50,15 @@ const UserSchema = new mongoose.Schema({
     socials: {
         linkedin: {
             type: String,
+            default: " "
         },
         website: {
             type: String,
+            default: " "
         },
         twitter: {
             type: String,
+            default: " "
         }
     },
     headshot: {
@@ -58,11 +66,13 @@ const UserSchema = new mongoose.Schema({
     },
     otp: {
         type: String,
+        default: " "
     },
-    passwordToken: {
+    resetToken: {
         type: String,
+        default: " "
     },
-    passwordTokenExpires: {
+    resetTokenExpires: {
         type: Date,
     },
     otpExpires: {
@@ -70,8 +80,9 @@ const UserSchema = new mongoose.Schema({
     },
     url: {
         type: String,
+        default: " "
     },
-    isVerified:{
+    isVerified: {
         type: Boolean,
         default: false
     }
