@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const Event = require('../models/events');
 const PressKit = require('../models/pressKit');
 require('dotenv').config()
-const baseUrl = 'https://spikkr-next.vercel.app/'
+const baseUrl = 'https://spikkr-next-js.vercel.app/'
 
 const signup = async (req, res) => {
     try {

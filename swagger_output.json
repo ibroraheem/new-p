@@ -174,14 +174,14 @@
                   "example": "any"
                 },
                 "topics": {
-                  "example": "any"
-                },
-                "headshot": {
                   "example": [
                     "any",
                     "any",
                     "any"
                   ]
+                },
+                "headshot": {
+                  "example": "any"
                 },
                 "socials": {
                   "example": {
