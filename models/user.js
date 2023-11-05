@@ -62,7 +62,8 @@ const UserSchema = new mongoose.Schema({
         }
     },
     headshot: {
-        type: String
+        type: String,
+        default: " "
     },
     otp: {
         type: String,
