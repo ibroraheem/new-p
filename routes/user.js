@@ -14,7 +14,7 @@ router.post('/login', login);
 router.post('/profile-update', isEmailVerified, updateProfile);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
-router.get('/users/:query', searchUser);
+// router.get('/users/:query', searchUser);
 router.get('/users/', getUsers);
 router.get('/users/:id', getUser)
 router.get('/users/press-kit/:id', getUserPressKit);
