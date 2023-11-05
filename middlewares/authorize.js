@@ -29,7 +29,7 @@ const isEmailVerified = async (req, res, next) => {
         console.log(decoded.email);
         if (!decoded.email)
             return res.status(403).json({ message: "Invalid Token" });
-        const user = await User.findOne({ email: decoded.email })
+        const user = await User.findOne({ "local.email": decoded.email })
         if (!user) return res.status(404).json({ message: "User not found" });
         if (user.isVerified !== true) return res.status(403).json({ message: "User not verified" });
         req.user = user;
