@@ -18,11 +18,13 @@ const UserSchema = new mongoose.Schema({
     },
     firstName: {
         type: String,
-        min: 2
+        min: 2,
+        default: ' '
     },
     lastName: {
         type: String,
-        min: 2
+        min: 2,
+        default: ' '
     },
     gender: {
         type: String,

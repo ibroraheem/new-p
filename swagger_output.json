@@ -5,10 +5,10 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "nervous-ox-slip.cyclic.app",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/": {
@@ -177,17 +177,23 @@
                   "example": [
                     "any",
                     "any",
+                    "any",
+                    "any",
+                    "any",
                     "any"
                   ]
                 },
                 "headshot": {
-                  "example": "any"
+                  "example": {
+                    "avatarUrl": "http://any",
+                    "avatarName": "any"
+                  }
                 },
                 "socials": {
                   "example": {
                     "linkedin": "any",
-                    "website": "any",
-                    "twitter": "any"
+                    "twitter": "any",
+                    "website": "any"
                   }
                 }
               }
@@ -285,73 +291,6 @@
         }
       }
     },
-    "/me": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/events/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/users/{query}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "query",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/users/": {
       "get": {
         "description": "",
@@ -431,17 +370,28 @@
                 "title": {
                   "example": "any"
                 },
-                "details": {
-                  "example": "any"
-                },
-                "tags": {
-                  "example": "any"
-                },
-                "media": {
-                  "example": "any"
-                },
                 "date": {
                   "example": "any"
+                },
+                "topics": {
+                  "example": [
+                    "any",
+                    "any",
+                    "any",
+                    "any"
+                  ]
+                },
+                "description": {
+                  "example": "any"
+                },
+                "slides": {
+                  "example": "any"
+                },
+                "coverPhoto": {
+                  "example": {
+                    "imageUrl": "any",
+                    "imageName": "any"
+                  }
                 }
               }
             }
@@ -456,6 +406,32 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{query}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

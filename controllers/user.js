@@ -83,4 +83,4 @@ const searchUser = async (req, res) => {
   }
 }
 
-module.exports = { searchUser, getUsers, getUser, getUserPressKit, createEvent } 
+module.exports = { searchUser, getUsers, getUser, getUserPressKit } 
