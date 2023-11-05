@@ -9,19 +9,20 @@ const EventSchema = new mongoose.Schema({
     title: {
         type: String,
     },
-    details: {
-        type: String,
-    },
-    tags: {
-        type: [String]
-    },
-    media: {
-        type: [String]
-    },
     date: {
         type: Date,
-        required: true,
-    }
+    },
+    coverPhoto: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
+    slides: {
+        type: String,
+    },
+    topics: [
+        { type: String }],
 
 }, { timestamps: true },)
 

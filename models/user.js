@@ -62,8 +62,14 @@ const UserSchema = new mongoose.Schema({
         }
     },
     headshot: {
-        type: String,
-        default: " "
+        avatarUrl: {
+            type: String,
+            default: " "
+        },
+        avatarName: {
+            type: String,
+            default: " "
+        }
     },
     otp: {
         type: String,

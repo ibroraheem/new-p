@@ -3,7 +3,9 @@ const { check } = require('express-validator');
 const router = express.Router();
 
 const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
-const { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, searchUser, getUsers, getUser, getUserPressKit, createEvent } = require('../controllers/user')
+const { searchUser, getUsers, getUser, getUserPressKit } = require('../controllers/user')
+const { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
+const { createEvent } = require('../controllers/event')
 
 router.post('/register', [
     check('email').isEmail().withMessage('Must be a valid email address'),
