@@ -918,7 +918,7 @@ const getUser = async (req, res) => {
         res.status(200).json({ message: "User successfully fetched", user: user })
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: errror })
+        res.status(500).json({ message: error.message})
     }
 }
 
@@ -952,7 +952,7 @@ const createEvent = async (req, res) => {
         res.status(201).json({ message: "Event created successfully", event: newEvent })
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: message.error })
+        res.status(500).json({ message: error.message })
     }
 }
 
