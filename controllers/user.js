@@ -948,7 +948,7 @@ const createEvent = async (req, res) => {
             media: media,
             date: date,
         })
-        await event.save()
+        await newEvent.save()
         res.status(201).json({ message: "Event created successfully", event: newEvent })
     } catch (error) {
         console.log(error)
