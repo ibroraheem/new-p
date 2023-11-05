@@ -177,10 +177,18 @@
                   "example": "any"
                 },
                 "headshot": {
-                  "example": "any"
+                  "example": [
+                    "any",
+                    "any",
+                    "any"
+                  ]
                 },
                 "socials": {
-                  "example": "any"
+                  "example": {
+                    "linkedin": "any",
+                    "website": "any",
+                    "twitter": "any"
+                  }
                 }
               }
             }
