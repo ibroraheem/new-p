@@ -114,7 +114,7 @@ const login = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-        const { firstName, lastName, gender, role, bio, companyIndustry, topics, headshot, socials } = req.body
+        const { firstName, lastName, gender, role, bio, companyIndustry, country, topics, headshot, socials } = req.body
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const errorMessages = errors.array().map(error => error.msg)
@@ -130,6 +130,7 @@ const updateProfile = async (req, res) => {
         user.topics = topics
         user.socials = socials
         user.companyIndustry = companyIndustry
+        user.country = country
         await user.save()
         res.status(200).json({ message: "User updated", user })
     } catch (error) {

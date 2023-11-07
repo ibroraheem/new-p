@@ -170,6 +170,9 @@
                 "bio": {
                   "example": "any"
                 },
+                "country": {
+                  "example": "any"
+                },
                 "companyIndustry": {
                   "example": "any"
                 },
