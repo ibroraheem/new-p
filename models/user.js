@@ -49,6 +49,16 @@ const UserSchema = new mongoose.Schema({
     topics: {
         type: [String]
     },
+    availableFor: {
+        type: [String]
+    },
+    coverPhoto: {
+        CoverPhotoUrl: {
+            type: String,
+
+        },
+        CoverPhotoName: { type: String }
+    },
     socials: {
         linkedin: {
             type: String,
