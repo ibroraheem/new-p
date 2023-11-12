@@ -170,34 +170,23 @@
                 "bio": {
                   "example": "any"
                 },
-                "country": {
-                  "example": "any"
-                },
                 "companyIndustry": {
                   "example": "any"
                 },
+                "country": {
+                  "example": "any"
+                },
                 "topics": {
-                  "example": [
-                    "any",
-                    "any",
-                    "any",
-                    "any",
-                    "any",
-                    "any"
-                  ]
+                  "example": "any"
                 },
                 "headshot": {
-                  "example": {
-                    "avatarUrl": "http://any",
-                    "avatarName": "any"
-                  }
+                  "example": "any"
+                },
+                "availableFor": {
+                  "example": "any"
                 },
                 "socials": {
-                  "example": {
-                    "linkedin": "any",
-                    "twitter": "any",
-                    "website": "any"
-                  }
+                  "example": "any"
                 }
               }
             }
@@ -377,12 +366,7 @@
                   "example": "any"
                 },
                 "topics": {
-                  "example": [
-                    "any",
-                    "any",
-                    "any",
-                    "any"
-                  ]
+                  "example": "any"
                 },
                 "description": {
                   "example": "any"
@@ -391,10 +375,7 @@
                   "example": "any"
                 },
                 "coverPhoto": {
-                  "example": {
-                    "imageUrl": "any",
-                    "imageName": "any"
-                  }
+                  "example": "any"
                 }
               }
             }
