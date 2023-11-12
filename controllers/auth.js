@@ -148,24 +148,15 @@ const forgotPassword = async (req, res) => {
             const errorMessages = errors.array().map((error) => error.msg);
             return res.status(422).json({ errors: errorMessages });
         }
-
         const user = await User.findOne({ email });
         if (!user) return res.status(404).json({ errors: "User does not exist" });
-
-        // Generate a unique reset token
         const resetToken = crypto.randomBytes(32).toString('hex');
         const resetTokenExpires = Date.now() + 60 * 60 * 10;
-
-        // Save the token and its expiration time in the user's document
         user.resetToken = resetToken;
         user.resetTokenExpires = resetTokenExpires;
         await user.save();
-
-        // Send an email to the user with a link that includes the reset token
         const resetLink = `${baseUrl}/reset-password/${resetToken}`;
         const firstName = user.firstName
-
-        // Send the email with the reset link
         const emailTemplatePath = path.join(__dirname, '..', 'helper', 'mailTemplates', 'passwordEmail.html');
         const welcomeMessage = fs.readFileSync(emailTemplatePath, 'utf8');
         const mailContent = welcomeMessage.replace('${resetLink}', resetLink).replace('${user.firstName}', firstName)
@@ -176,14 +167,12 @@ const forgotPassword = async (req, res) => {
                 pass: process.env.PASSWORD,
             },
         });
-
         const mailOptions = {
             from: process.env.EMAIL,
             to: email,
             subject: "Spikkr - Password Reset",
             html: mailContent,
         };
-
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error);
@@ -207,9 +196,7 @@ const resetPassword = async (req, res) => {
             const errorMessages = errors.array().map((error) => error.msg);
             return res.status(422).json({ errors: errorMessages });
         }
-
         const user = await User.findOne({ resetToken: token });
-
         if (!user) return res.status(404).json({ message: "User not found" });
         if (Date.now() < user.resetTokenExpires) return res.status(403).json({ message: "Token has expired" });
         const hashedPassword = bcrypt.hashSync(password, 10);
@@ -217,7 +204,6 @@ const resetPassword = async (req, res) => {
         user.resetToken = null;
         user.resetTokenExpires = null;
         await user.save();
-
         res.status(200).json({ message: "Password changed successfully" });
     } catch (error) {
         console.log(error);
