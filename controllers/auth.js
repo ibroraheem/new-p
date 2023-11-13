@@ -114,7 +114,7 @@ const login = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-        const { firstName, lastName, gender, role, bio, companyIndustry, country, topics, headshot, availableFor, socials } = req.body
+        const { firstName, lastName, gender, role, termsAndConditions, coverPhoto, bio, companyIndustry, country, topics, headshot, availableFor, socials } = req.body
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const errorMessages = errors.array().map(error => error.msg)
@@ -126,6 +126,8 @@ const updateProfile = async (req, res) => {
         user.gender = gender
         user.headshot = headshot
         user.role = role
+        user.termsAndConditions = termsAndConditions
+        user.coverPhoto = coverPhoto
         user.bio = bio
         user.availableFor = availableFor
         user.topics = topics

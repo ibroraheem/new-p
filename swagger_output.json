@@ -176,17 +176,27 @@
                 "country": {
                   "example": "any"
                 },
-                "topics": {
+                "termsAndConditions":{
                   "example": "any"
+                },
+                "topics": {
+                  "example": ["any", "any", "any", "any"]
                 },
                 "headshot": {
-                  "example": "any"
+                  "example": {
+                    "avatarUrl": "http://",
+                    "avatarName": "image1"
+                  }
                 },
                 "availableFor": {
-                  "example": "any"
+                  "example": ["any", "any", "any"]
                 },
                 "socials": {
-                  "example": "any"
+                  "example": {
+                    "twitter": "https://twitter.com/any",
+                    "linkedin": "https://linkedin.com/in/any",
+                    "website": "https://www.any.com/"
+                  }
                 }
               }
             }

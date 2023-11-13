@@ -83,6 +83,10 @@ const UserSchema = new mongoose.Schema({
             default: " "
         }
     },
+    termsAndConditions: {
+        type: String,
+        default: " "
+    },
     otp: {
         type: String,
         default: " "
