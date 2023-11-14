@@ -140,8 +140,8 @@
         }
       }
     },
-    "/profile-update": {
-      "post": {
+    "/account-update": {
+      "patch": {
         "description": "",
         "parameters": [
           {
@@ -167,6 +167,12 @@
                 "role": {
                   "example": "any"
                 },
+                "termsAndConditions": {
+                  "example": "any"
+                },
+                "coverPhoto": {
+                  "example": "any"
+                },
                 "bio": {
                   "example": "any"
                 },
@@ -176,27 +182,94 @@
                 "country": {
                   "example": "any"
                 },
-                "termsAndConditions":{
+                "topics": {
+                  "example": "any"
+                },
+                "headshot": {
+                  "example": "any"
+                },
+                "availableFor": {
+                  "example": "any"
+                },
+                "socials": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/update-profile": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "any"
+                },
+                "lastName": {
+                  "example": "any"
+                },
+                "gender": {
+                  "example": "any"
+                },
+                "role": {
+                  "example": "any"
+                },
+                "termsAndConditions": {
+                  "example": "any"
+                },
+                "coverPhoto": {
+                  "example": "any"
+                },
+                "bio": {
+                  "example": "any"
+                },
+                "companyIndustry": {
+                  "example": "any"
+                },
+                "country": {
                   "example": "any"
                 },
                 "topics": {
-                  "example": ["any", "any", "any", "any"]
+                  "example": "any"
                 },
                 "headshot": {
-                  "example": {
-                    "avatarUrl": "http://",
-                    "avatarName": "image1"
-                  }
+                  "example": "any"
                 },
                 "availableFor": {
-                  "example": ["any", "any", "any"]
+                  "example": "any"
                 },
                 "socials": {
-                  "example": {
-                    "twitter": "https://twitter.com/any",
-                    "linkedin": "https://linkedin.com/in/any",
-                    "website": "https://www.any.com/"
-                  }
+                  "example": "any"
                 }
               }
             }
