@@ -15,6 +15,9 @@ const authorizeUser = async (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token has expired' });
+        }
         console.log(error);
         res.status(500).json({ message: error.message });
     }
@@ -35,6 +38,9 @@ const isEmailVerified = async (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token has expired' });
+        }
         console.log(error);
         res.status(500).json({ message: error.message });
     }
