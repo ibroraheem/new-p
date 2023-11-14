@@ -13,7 +13,7 @@ router.post('/register', [
 ], signup)
 router.post('/verify-email', authorizeUser, verifyEmail);
 router.post('/login', login);
-router.post('/profile-update', isEmailVerified, updateProfile);
+router.patch('/profile-update', isEmailVerified, updateProfile);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/users/', getUsers);
