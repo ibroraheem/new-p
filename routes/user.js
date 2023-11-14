@@ -14,7 +14,7 @@ router.post('/register', [
 router.post('/verify-email', authorizeUser, verifyEmail);
 router.post('/login', login);
 router.patch('/account-update', isEmailVerified, accountUpdate);
-router.put('/update-profile', isEmailVerified, updateProfile);
+router.patch('/update-profile', isEmailVerified, updateProfile);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/users/', getUsers);
