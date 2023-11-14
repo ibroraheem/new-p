@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
 const { searchUser, getUsers, getUser, getUserPressKit } = require('../controllers/user')
-const { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
+const { signup, verifyEmail, login, accountUpdate, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
 const { createEvent } = require('../controllers/event')
 
 router.post('/register', [
@@ -13,7 +13,8 @@ router.post('/register', [
 ], signup)
 router.post('/verify-email', authorizeUser, verifyEmail);
 router.post('/login', login);
-router.patch('/profile-update', isEmailVerified, updateProfile);
+router.patch('/account-update', isEmailVerified, accountUpdate);
+router.patch('update-profile', isEmailVerified, updateProfile);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/users/', getUsers);

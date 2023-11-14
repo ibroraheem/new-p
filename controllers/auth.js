@@ -112,7 +112,7 @@ const login = async (req, res) => {
     }
 }
 
-const updateProfile = async (req, res) => {
+const accountUpdate = async (req, res) => {
     try {
         const { firstName, lastName, gender, role, termsAndConditions, coverPhoto, bio, companyIndustry, country, topics, headshot, availableFor, socials } = req.body
         const errors = validationResult(req)
@@ -211,6 +211,40 @@ const resetPassword = async (req, res) => {
         console.log(error);
         res.status(500).json({ message: error.message });
     }
-};
+}
 
-module.exports = { signup, verifyEmail, login, updateProfile, forgotPassword, resetPassword }
+const updateProfile = async (req, res) => {
+    try {
+        const { firstName, lastName, gender, role, termsAndConditions, coverPhoto, bio, companyIndustry, country, topics, headshot, availableFor, socials } = req.body
+        const errors = validationResult(req)
+        
+        if (!errors.isEmpty()) {
+            const errorMessages = errors.array().map(error => error.msg)
+            return res.status(422).json({ errors: errorMessages })
+        }
+        const user = req.user
+        if (firstName) user.firstName = firstName
+        if (lastName) user.lastName = lastName
+        if (gender) user.gender = gender
+        if (headshot) user.headshot = headshot
+        if (role) user.role = role
+        if (termsAndConditions) user.termsAndConditions = termsAndConditions
+        if (coverPhoto) user.coverPhoto = coverPhoto
+        if (bio) user.bio = bio
+        if (availableFor) user.availableFor = availableFor
+        if (topics) user.topics = topics
+        if (socials) user.socials = socials
+        if (companyIndustry) user.companyIndustry = companyIndustry
+        if (country) user.country = country
+
+        await user.save()
+
+        res.status(200).json({ message: "User profile updated", user })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
+
+
+module.exports = { signup, verifyEmail, login, accountUpdate,updateProfile, forgotPassword, resetPassword }
