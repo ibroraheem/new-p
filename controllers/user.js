@@ -77,7 +77,7 @@ const getPressKit = async (req, res) => {
 
     }
   }
-
+}
   const searchUser = async (req, res) => {
     try {
       let users;
@@ -106,6 +106,6 @@ const getPressKit = async (req, res) => {
       res.status(500).json({ message: error.message })
     }
   }
-}
+// }
 
-module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit } 
+module.exports = { getUsers, getUser, createPressKit, getPressKit } 
