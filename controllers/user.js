@@ -108,4 +108,4 @@ const getPressKit = async (req, res) => {
   }
 // }
 
-module.exports = { getUsers, getUser, createPressKit, getPressKit } 
+module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit } 
