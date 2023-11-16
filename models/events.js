@@ -13,16 +13,23 @@ const EventSchema = new mongoose.Schema({
         type: Date,
     },
     coverPhoto: {
-        type: String,
+        coverPhotoName: { type: String },
+        coverPhotoUrl: { type: String }
     },
     description: {
         type: String,
     },
     slides: {
-        type: String,
+        slideName: {
+            type: String,
+        },
+        slideUrl: {
+            type: String
+        }
     },
     topics: [
-        { type: String }],
+        { type: String }
+    ],
 
 }, { timestamps: true },)
 
