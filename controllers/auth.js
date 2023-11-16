@@ -106,7 +106,7 @@ const login = async (req, res) => {
 
 const accountUpdate = async (req, res) => {
     try {
-        const { firstName, lastName, gender, role, termsAndConditions, coverPhoto, bio, companyIndustry, country, topics, headshot, availableFor, socials } = req.body
+        const { firstName, lastName, gender, role, termsAndConditions, coverPhoto, bio, companyIndustry, country, topics, headshot, workStatus, availableFor, socials } = req.body
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const errorMessages = errors.array().map(error => error.msg)
@@ -121,6 +121,7 @@ const accountUpdate = async (req, res) => {
         user.termsAndConditions = termsAndConditions
         user.coverPhoto = coverPhoto
         user.bio = bio
+        user.workStatus = workStatus
         user.availableFor = availableFor
         user.topics = topics
         user.socials = socials
@@ -209,7 +210,7 @@ const updateProfile = async (req, res) => {
     try {
         const { firstName, lastName, gender, role, termsAndConditions, coverPhoto, bio, companyIndustry, country, topics, headshot, availableFor, socials } = req.body
         const errors = validationResult(req)
-        
+
         if (!errors.isEmpty()) {
             const errorMessages = errors.array().map(error => error.msg)
             return res.status(422).json({ errors: errorMessages })
@@ -238,4 +239,4 @@ const updateProfile = async (req, res) => {
     }
 }
 
-module.exports = { signup, verifyEmail, login, accountUpdate,updateProfile, forgotPassword, resetPassword }
+module.exports = { signup, verifyEmail, login, accountUpdate, updateProfile, forgotPassword, resetPassword }
