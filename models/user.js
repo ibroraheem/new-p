@@ -55,9 +55,12 @@ const UserSchema = new mongoose.Schema({
     coverPhoto: {
         CoverPhotoUrl: {
             type: String,
+default: " "
 
         },
-        CoverPhotoName: { type: String }
+        CoverPhotoName: { type: String, 
+default: " "
+}
     },
     socials: {
         linkedin: {
