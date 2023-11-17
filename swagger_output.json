@@ -5,10 +5,10 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "nervous-ox-slip.cyclic.app",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
@@ -284,7 +284,14 @@
                   "example": "any"
                 },
                 "topics": {
-                  "example": "any"
+                  "example": [
+                    "any",
+                    "any",
+                    "any",
+                    "any",
+                    "any",
+                    "any"
+                  ]
                 },
                 "headshot": {
                   "example": {
@@ -502,11 +509,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "",
-            "in": "query",
-            "type": "string"
           }
         ],
         "responses": {
@@ -541,7 +543,7 @@
                   "example": "any"
                 },
                 "date": {
-                  "example": "any"
+                  "example": "2023-11-13T19:02:45.484+00:00"
                 },
                 "topics": {
                   "example": [
@@ -556,14 +558,14 @@
                 },
                 "slide": {
                   "example": {
-                    "slideName": "Slide",
-                    "slideUrl": "http://"
+                    "slideUrl": "http://",
+                    "slideName": ""
                   }
                 },
                 "coverPhoto": {
                   "example": {
-                    "coverPhotoName": "coverPhoto",
-                    "coverPhotoUrl": "http://"
+                    "coverPhotoUrl": "http://",
+                    "coverPhotoName": "coverPhoto"
                   }
                 }
               }
@@ -582,6 +584,155 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "coverPhoto": {
+                  "example": {
+                    "coverPhotoName": "coverPhoto",
+                    "coverPhotoUrl": "http://"
+                  }
+                },
+                "description": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "2023-11-13T19:02:45.484+00:00"
+                },
+                "topics": {
+                  "example": [
+                    "any",
+                    "any",
+                    "any",
+                    "any",
+                    "any",
+                    "any",
+                    "any"
+                  ]
+                },
+                "slide": {
+                  "example": {
+                    "slideName": "slide",
+                    "slideUrl": "slideurl"
+                  }
+                },
+                "title": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/user/{userId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

@@ -5,7 +5,7 @@ const router = express.Router();
 const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
 const { searchUser, getUsers, getUser, createPressKit, getPressKit } = require('../controllers/user')
 const { signup, verifyEmail, login, accountUpdate, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
-const { createEvent } = require('../controllers/event')
+const { createEvent, getEvents, getEvent, deleteEvent, updateEvent, getUserEvents } = require('../controllers/event')
 
 router.post('/register', [
     check('email').isEmail().withMessage('Must be a valid email address'),
@@ -22,6 +22,12 @@ router.get('/users/:id', getUser)
 router.post('/add-presskit', isEmailVerified, createPressKit);
 router.get('/presskit/:id', getPressKit);
 router.post('/add-event', isEmailVerified, createEvent);
+router.get('/events/', getEvents);
+router.get('/events/:id', getEvent);
+router.patch('/events/:id', getEvent);
+router.get('/events/user/:userId', getUserEvents);
+router.patch('/events/:id', updateEvent);
+router.delete('/events/:id', deleteEvent);
 router.get('/users/:query', searchUser);
 
 module.exports = router
