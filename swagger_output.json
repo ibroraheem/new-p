@@ -462,14 +462,9 @@
               "properties": {
                 "media": {
                   "example": [
-                    {
-                      "mediaName1": "media1",
-                      "mediaLink1": "http://example.com"
-                    },
-                    {
-                      "mediaName2": "media2",
-                      "mediaLink2": "http://example.com"
-                    }
+                    "any",
+                    "any",
+                    "any"
                   ]
                 },
                 "fullBio": {

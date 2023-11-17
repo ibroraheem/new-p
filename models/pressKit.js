@@ -6,12 +6,7 @@ const PressKitSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    media: [
-        {
-            imageName: { type: String, required: true },
-            imageUrl: { type: String, required: true },
-        },
-    ],
+    media: [],
     fullBio: {
         type: String,
         required: true,
