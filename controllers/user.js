@@ -78,34 +78,34 @@ const getPressKit = async (req, res) => {
     }
   }
 }
-  const searchUser = async (req, res) => {
-    try {
-      let users;
+const searchUser = async (req, res) => {
+  try {
+    let users;
 
-      if (!req.query.$search) {
-        users = await User.find().select('-password -method -local -otp -otpExpires -isVerified -createdAt -updatedAt -__v').lean();
-      } else {
-        const searchRegex = new RegExp(req.query.$search, 'i'); // Case-insensitive regex
-        users = await User.find({
-          $or: [
-            { firstName: { $regex: searchRegex } },
-            { lastName: { $regex: searchRegex } },
-            { url: { $regex: searchRegex } },
-            { topics: { $regex: searchRegex } }
-          ]
-        }, {
-          password: 0
-        })
-          .populate('event')
-          .lean();
-      }
-      res.status(200).json({ message: 'Search results', users });
-
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: error.message })
+    if (!req.query.$search) {
+      users = await User.find().select('-password -method -local -otp -otpExpires -isVerified -createdAt -updatedAt -__v').lean();
+    } else {
+      const searchRegex = new RegExp(req.query.$search, 'i'); // Case-insensitive regex
+      users = await User.find({
+        $or: [
+          { firstName: { $regex: searchRegex } },
+          { lastName: { $regex: searchRegex } },
+          { url: { $regex: searchRegex } },
+          { topics: { $regex: searchRegex } }
+        ]
+      }, {
+        password: 0
+      })
+        .populate('event')
+        .lean();
     }
+    res.status(200).json({ message: 'Search results', users });
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: error.message })
   }
-// }
+}
+
 
 module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit } 

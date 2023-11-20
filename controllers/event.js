@@ -11,8 +11,8 @@ const createEvent = async (req, res) => {
             title: title,
             topics: topics,
             description: description,
-            slide: slide,
-            coverPhoto: coverPhoto
+            coverPhoto: coverPhoto,
+            slide: slide
         })
         await newEvent.save()
         res.status(201).json({ message: "Event created successfully", event: newEvent })
