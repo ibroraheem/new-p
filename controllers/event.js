@@ -1,7 +1,7 @@
 const Event = require('../models/events');
 const createEvent = async (req, res) => {
     try {
-        const { title, date, topics, description, slides, coverPhoto } = req.body
+        const { title, date, topics, description, slide, coverPhoto } = req.body
         const user = req.user
         const event = await Event.findOne({ user: user._id, title: title })
         if (event) return res.status(403).json({ message: "Event exists" })
@@ -11,7 +11,7 @@ const createEvent = async (req, res) => {
             title: title,
             topics: topics,
             description: description,
-            slides: slides,
+            slide: slide,
             coverPhoto: coverPhoto
         })
         await newEvent.save()
