@@ -1,4 +1,5 @@
 const Event = require('../models/events');
+const User = require('../models/user');
 const createEvent = async (req, res) => {
     try {
         const { title, date, topics, description, slide, coverPhoto } = req.body
@@ -49,9 +50,9 @@ const updateEvent = async (req, res) => {
         const event = await Event.findOne({ _id: req.params.id })
         if (!event) return res.status(404).json({ message: 'Event not found' })
         // check for owner of the event
-        if (String(event.user) !== String(req.user._id)) return res.status(401).json({
-            message: "Access Denied"
-        })
+        if (!user || !user.events.includes(event._id)) {
+            return res.status(403).json({ message: 'You are not authorized to perform this action.' });
+        }
         if (title) event.title = title
         if (description) event.description = description
         if (coverPhoto) event.coverPhoto = coverPhoto
@@ -82,10 +83,11 @@ const deleteEvent = async (req, res) => {
         let event = await Event.findOne({ _id: req.params.id })
         if (!event) return res.status(404).json({ message: 'Event not found' })
         // check for owner of the event
-        if (String(event.user) !== String(req.user._id)) return res.status(401).json({
-            message: "Access Denied"
-        })
-        await Event.deleteOne({ _id: req.params.id });
+        const user = await User.findOne({ _id: event.user })
+        if (!user) {
+            return res.status(403).json({ message: 'You are not authorized to perform this action.' });
+        }
+        await Event.deleteOne({_id: req.params.id})
         res.status(200).json({ message: 'Event deleted' });
     } catch (error) {
         console.log(error)
