@@ -24,7 +24,7 @@ router.get('/presskit/:id', getPressKit);
 router.post('/add-event', isEmailVerified, createEvent);
 router.get('/events/', getEvents);
 router.get('/events/:id', getEvent);
-router.patch('/events/:id', updateEvent);
+router.patch('/events/:id',authorizeUser, updateEvent);
 router.get('/events/user/:userId', getUserEvents);
 router.patch('/events/:id', updateEvent);
 router.delete('/events/:id', authorizeUser, deleteEvent);
