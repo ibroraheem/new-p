@@ -84,10 +84,10 @@ const deleteEvent = async (req, res) => {
         if (!event) return res.status(404).json({ message: 'Event not found' })
         // check for owner of the event
         const user = await User.findOne({ _id: event.user })
-        if (!user) {
+        if (user !== event.user) {
             return res.status(403).json({ message: 'You are not authorized to perform this action.' });
         }
-        await Event.deleteOne({_id: req.params.id})
+        await Event.deleteOne({ _id: req.params.id })
         res.status(200).json({ message: 'Event deleted' });
     } catch (error) {
         console.log(error)
