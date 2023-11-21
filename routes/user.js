@@ -27,7 +27,7 @@ router.get('/events/:id', getEvent);
 router.patch('/events/:id', updateEvent);
 router.get('/events/user/:userId', getUserEvents);
 router.patch('/events/:id', updateEvent);
-router.delete('/events/:id', deleteEvent);
+router.delete('/events/:id', authorizeUser, deleteEvent);
 router.get('/users/:query', searchUser);
 
 module.exports = router
