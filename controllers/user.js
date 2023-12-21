@@ -51,9 +51,9 @@ const createPressKit = async (req, res) => {
 
 const getPressKit = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id })
+    const user = await User.findOne({ _id: req.params.userId })
     if (!user) return res.status(404).json({ message: "User not found" })
-    const pressKit = await PressKit.findOne({ user: req.params.id })
+    const pressKit = await PressKit.findOne({ user: req.params.userId })
       .populate({
         path: 'user',
         select: 'firstName lastName role topics bio socials'
@@ -69,15 +69,26 @@ const getPressKit = async (req, res) => {
     console.log(error)
     res.status(500).json({ message: error.message })
   }
+}
 
-  const signupGoogle = async (req, res) => {
-    try {
-
-    } catch (error) {
-
-    }
+const updatePresskit = async (req, res) => {
+  try {
+    const user = req.user
+    const { media, fullBio } = req.body
+    let pressKit;
+    if (!user) return res.status(403).json({ message: "User not found" })
+    pressKit = new PressKit({
+      user: user._id,
+      media: media,
+      fullBio: fullBio
+    });
+    await pressKit.save();
+    res.status(200).json({ message: "Press kit updated successfully", presskit: pressKit });
+  } catch (error) {
+    res.status(500).json({ message: error.message })
   }
 }
+
 const searchUser = async (req, res) => {
   try {
     let users;
@@ -108,4 +119,4 @@ const searchUser = async (req, res) => {
 }
 
 
-module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit } 
+module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit } 

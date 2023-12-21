@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router();
 
 const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
-const { searchUser, getUsers, getUser, createPressKit, getPressKit } = require('../controllers/user')
+const { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit } = require('../controllers/user')
 const { signup, verifyEmail, login, accountUpdate, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
 const { createEvent, getEvents, getEvent, deleteEvent, updateEvent, getUserEvents } = require('../controllers/event')
 
@@ -20,11 +20,12 @@ router.post('/reset-password', resetPassword);
 router.get('/users/', getUsers);
 router.get('/users/:id', getUser)
 router.post('/add-presskit', isEmailVerified, createPressKit);
-router.get('/presskit/:id', getPressKit);
+router.get('/presskit/:userId', getPressKit);
+router.patch('/update-presskit/:userId', isEmailVerified, updatePresskit);
 router.post('/add-event', isEmailVerified, createEvent);
 router.get('/events/', getEvents);
 router.get('/events/:id', getEvent);
-router.patch('/events/:id',authorizeUser, updateEvent);
+router.patch('/events/:id', authorizeUser, updateEvent);
 router.get('/events/user/:userId', getUserEvents);
 router.patch('/events/:id', updateEvent);
 router.delete('/events/:id', authorizeUser, deleteEvent);
