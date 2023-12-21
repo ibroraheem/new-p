@@ -32,17 +32,17 @@ const getUser = async (req, res) => {
 
 const createPressKit = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id })
+    const user = req.user
     const { media, fullBio } = req.body
     let pressKit;
     if (!user) return res.status(403).json({ message: "User not found" })
     pressKit = new PressKit({
-      user: req.params.id,
+      user: user._id,
       media: media,
       fullBio: fullBio
     });
     await pressKit.save();
-    res.status(201).json({ message: "Created Successfully!" })
+    res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })
