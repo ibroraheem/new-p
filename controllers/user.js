@@ -36,13 +36,25 @@ const createPressKit = async (req, res) => {
     const { media, fullBio } = req.body
     let pressKit;
     if (!user) return res.status(403).json({ message: "User not found" })
-    pressKit = new PressKit({
-      user: user._id,
-      media: media,
-      fullBio: fullBio
-    });
-    await pressKit.save();
-    res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
+    presskit = PressKit.findOne({ user: user._id })
+    if (presskit) {
+      PressKit.findOneAndDelete({ user: user._id })
+      pressKit = new PressKit({
+        user: user._id,
+        media: media,
+        fullBio: fullBio
+      });
+      await pressKit.save();
+      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
+    } else {
+      pressKit = new PressKit({
+        user: user._id,
+        media: media,
+        fullBio: fullBio
+      });
+      await pressKit.save();
+      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
+    }
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })
@@ -96,7 +108,7 @@ const searchUser = async (req, res) => {
     if (!req.query.$search) {
       users = await User.find().select('-password -method -local -otp -otpExpires -isVerified -createdAt -updatedAt -__v').lean();
     } else {
-      const searchRegex = new RegExp(req.query.$search, 'i'); // Case-insensitive regex
+      const searchRegex = new RegExp(req.query.$search, 'i');
       users = await User.find({
         $or: [
           { firstName: { $regex: searchRegex } },
