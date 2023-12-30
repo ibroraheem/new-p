@@ -524,8 +524,8 @@
         }
       }
     },
-    "/update-presskit": {
-      "post": {
+    "/update-presskit/{userId}": {
+      "patch": {
         "description": "",
         "parameters": [
           {
