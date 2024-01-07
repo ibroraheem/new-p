@@ -88,15 +88,27 @@ const updatePresskit = async (req, res) => {
     const user = req.user;
     const { media, fullBio } = req.body;
     if (!user) return res.status(403).json({ message: "User not found" });
-    let presskit = PressKit.findOne({ user: user._id })
+
+    // Use await to get the actual document from the query
+    const presskit = await PressKit.findOne({ user: user._id });
+
+    if (!presskit) {
+      return res.status(404).json({ message: "Press kit not found" });
+    }
+
     presskit.media = media;
     presskit.fullBio = fullBio;
-    presskit.save()
-    res.status(200).json({ message: "Press kit updated successfully", presskit: pressKit });
+
+    // Use await to save the changes
+    await presskit.save();
+
+    res.status(200).json({ message: "Press kit updated successfully", presskit });
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    console.log(error);
+    res.status(500).json({ message: error.message });
   }
-}
+};
+
 
 const searchUser = async (req, res) => {
   try {
