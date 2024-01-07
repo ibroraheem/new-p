@@ -88,7 +88,7 @@ const updatePresskit = async (req, res) => {
     const user = req.user;
     const { media, fullBio } = req.body;
     if (!user) return res.status(403).json({ message: "User not found" });
-    let pressKit = PressKit.findOne({ user: user._id })
+    let presskit = PressKit.findOne({ user: user._id })
     presskit.media = media;
     presskit.fullBio = fullBio;
     presskit.save()
