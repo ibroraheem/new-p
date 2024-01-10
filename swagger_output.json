@@ -572,6 +572,38 @@
         }
       }
     },
+    "/testimonial/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": "any",
+                "testimonial": "any"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Testimonial posted successfully"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/add-event": {
       "post": {
         "description": "",

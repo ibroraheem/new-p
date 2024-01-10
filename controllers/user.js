@@ -109,6 +109,23 @@ const updatePresskit = async (req, res) => {
   }
 };
 
+const giveTestimonial = async (req, res) => {
+  const { name, testimonialText } = req.body;
+  const userId = req.params.id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    user.testimonial.push({ name, testimonial: testimonialText });
+    await user.save();
+    return res.status(200).json({ message: 'Testimonial added successfully', user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 
 const searchUser = async (req, res) => {
   try {
@@ -140,4 +157,4 @@ const searchUser = async (req, res) => {
 }
 
 
-module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit } 
+module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial } 

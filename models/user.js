@@ -52,15 +52,22 @@ const UserSchema = new mongoose.Schema({
     availableFor: {
         type: [String]
     },
+    testimonial: [{
+        name: {
+            type: String,
+        },
+        testimonial: String
+    }],
     coverPhoto: {
         CoverPhotoUrl: {
             type: String,
-default: " "
+            default: " "
 
         },
-        CoverPhotoName: { type: String, 
-default: " "
-}
+        CoverPhotoName: {
+            type: String,
+            default: " "
+        }
     },
     socials: {
         linkedin: {
@@ -112,7 +119,7 @@ default: " "
         type: Boolean,
         default: false
     },
-    workStatus:{
+    workStatus: {
         type: String,
     },
 },
