@@ -56,10 +56,9 @@ const UserSchema = new mongoose.Schema({
         name: {
             type: String,
         },
-
-        testimonial: {
-            type: String
-        }
+        text: {
+            type: String,
+        },
     }],
     coverPhoto: {
         CoverPhotoUrl: {
