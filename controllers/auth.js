@@ -7,7 +7,6 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
-const moment = require('moment');
 require('dotenv').config()
 const baseUrl = 'https://spikkr-next-js.vercel.app/'
 
@@ -22,7 +21,7 @@ const signup = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10)
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
-        const otpExpires = moment().add(1, 'hours').valueOf();
+        const otpExpires = Date.now() + 60 * 60 * 1000;
         const newUser = new User({
             method: 'local',
             local: {
