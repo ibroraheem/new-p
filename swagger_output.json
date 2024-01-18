@@ -785,7 +785,7 @@
               "properties": {
                 "testimonial": {
                   "name": "any",
-                  "text": "any"
+                  "testimonialText": "any"
                 }
               }
             }
