@@ -783,9 +783,11 @@
             "schema": {
               "type": "object",
               "properties": {
-                "testimonial": {
-                  "name": "any",
-                  "testimonialText": "any"
+                "testimonialText": {
+                  "name": "any"
+                },
+                "name": {
+                  "name": "any"
                 }
               }
             }
