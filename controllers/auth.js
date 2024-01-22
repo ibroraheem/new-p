@@ -1,14 +1,17 @@
-const User = require('../models/user')
-const express = require('express')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const User = require('../models/user');
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config()
-const baseUrl = 'https://spikkr-next-js.vercel.app/'
+require('dotenv').config();
+const baseUrl = 'https://spikkr-next-js.vercel.app/';
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const router = express.Router();
 
 const signup = async (req, res) => {
     try {

@@ -41,21 +41,20 @@ const createPressKit = async (req, res) => {
       PressKit.findOneAndDelete({ user: user._id })
       pressKit = new PressKit({
         user: user._id,
-        fullBio: fullBio
+        fullBio: fullBio,
+        media: media
       });
       await pressKit.save();
-      user.media = media;
-      await user.save();
-      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit, media: user.media });
+      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
     } else {
       pressKit = new PressKit({
         user: user._id,
-        fullBio: fullBio
+        fullBio: fullBio,
+        media: media
       });
       await pressKit.save();
-      user.media = media;
-      await user.save();
-      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit, media: user.media });
+      
+      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
     }
   } catch (error) {
     console.log(error)
@@ -96,9 +95,8 @@ const updatePresskit = async (req, res) => {
       return res.status(404).json({ message: "Press kit not found" });
     }
     presskit.fullBio = fullBio;
+    presskit.media = media;
     await presskit.save();
-    user.media = media;
-    await user.save();
     res.status(200).json({ message: "Press kit updated successfully", presskit, media: user.media });
   } catch (error) {
     console.log(error);

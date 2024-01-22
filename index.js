@@ -8,10 +8,11 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
 const helmet = require('helmet');
 require('dotenv').config();
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
 
 app.use(morgan('dev'));
 app.use(helmet());
+app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(passport.initialize());
@@ -24,13 +25,18 @@ app.use(cors(
 ));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Routes
 app.get('/', (req, res) => {
     res.status(200).send("Hello World!");
 });
-app.use('/', require('./routes/user'))
+
+// Additional routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-const port = process.env.PORT
-connectDB()
+app.use('/api/user', require('./routes/user'));
+
+const port = process.env.PORT;
+connectDB();
+
 app.listen(port, () => {
-    console.log('listening on port');
+    console.log(`Server is running on port ${port}`);
 });
