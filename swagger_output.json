@@ -833,8 +833,38 @@
         }
       }
     },
-    "/add-media/:userId": {
-
+    "/add-media": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "media": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": [
+                      "any",
+                      "any",
+                      "any"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
     },
     "/users/{query}": {
       "get": {
