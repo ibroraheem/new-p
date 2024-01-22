@@ -72,19 +72,10 @@ const UserSchema = new mongoose.Schema({
         }
     },
     socials: {
-        linkedin: {
-            type: String,
-            default: " "
-        },
-        website: {
-            type: String,
-            default: " "
-        },
-        twitter: {
-            type: String,
-            default: " "
-        }
+        type: Object,
+        default: {}
     },
+    media: [],
     headshot: {
         avatarUrl: {
             type: String,

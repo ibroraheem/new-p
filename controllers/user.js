@@ -41,19 +41,21 @@ const createPressKit = async (req, res) => {
       PressKit.findOneAndDelete({ user: user._id })
       pressKit = new PressKit({
         user: user._id,
-        media: media,
         fullBio: fullBio
       });
       await pressKit.save();
-      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
+      user.media = media;
+      await user.save();
+      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit, media: user.media });
     } else {
       pressKit = new PressKit({
         user: user._id,
-        media: media,
         fullBio: fullBio
       });
       await pressKit.save();
-      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
+      user.media = media;
+      await user.save();
+      res.status(201).json({ message: "Created Successfully!", pressKit: pressKit, media: user.media });
     }
   } catch (error) {
     console.log(error)
@@ -68,7 +70,7 @@ const getPressKit = async (req, res) => {
     const pressKit = await PressKit.findOne({ user: req.params.userId })
       .populate({
         path: 'user',
-        select: 'firstName lastName role topics bio socials'
+        select: 'firstName lastName role topics bio socials media'
       })
       .exec();
 
@@ -93,10 +95,11 @@ const updatePresskit = async (req, res) => {
     if (!presskit) {
       return res.status(404).json({ message: "Press kit not found" });
     }
-    presskit.media = media;
     presskit.fullBio = fullBio;
     await presskit.save();
-    res.status(200).json({ message: "Press kit updated successfully", presskit });
+    user.media = media;
+    await user.save();
+    res.status(200).json({ message: "Press kit updated successfully", presskit, media: user.media });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
@@ -120,6 +123,19 @@ const giveTestimonial = async (req, res) => {
   }
 };
 
+const addMedia = async (req, res) => {
+  try {
+    const user = req.user;
+    const { media } = req.body;
+    if (!user) return res.status(403).json({ message: "User not found" });
+    user.media = media;
+    await user.save();
+    res.status(200).json({ message: "Media added successfully", media: user.media });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const searchUser = async (req, res) => {
   try {
@@ -151,4 +167,4 @@ const searchUser = async (req, res) => {
 }
 
 
-module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial } 
+module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia } 

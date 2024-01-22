@@ -833,6 +833,9 @@
         }
       }
     },
+    "/add-media/:userId": {
+
+    },
     "/users/{query}": {
       "get": {
         "description": "",
