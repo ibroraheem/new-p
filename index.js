@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 
 // Additional routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.use('/api/user', require('./routes/user'));
+app.use('/', require('./routes/user'));
 
 const port = process.env.PORT;
 connectDB();
