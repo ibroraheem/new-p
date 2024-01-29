@@ -123,7 +123,7 @@ const giveTestimonial = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    user.testimonial.push({ name, text: testimonialText });
+    user.testimonials.push({ name, text: testimonialText });
     await user.save();
     return res.status(200).json({ message: 'Testimonial added successfully', user });
   } catch (error) {

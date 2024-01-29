@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema({
     availableFor: {
         type: [String]
     },
-    testimonial: [{
+    testimonials: [{
         name: {
             type: String,
         },
