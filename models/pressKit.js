@@ -9,7 +9,6 @@ const PressKitSchema = new mongoose.Schema({
     media: [],
     fullBio: {
         type: String,
-        required: true,
     },
 
     testimonials: [

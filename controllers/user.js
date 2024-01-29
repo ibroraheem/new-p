@@ -106,7 +106,7 @@ const updatePresskit = async (req, res) => {
       return res.status(404).json({ message: "Press kit not found" });
     }
     presskit.fullBio = fullBio;
-    presskit.media = media;
+    presskit.media.push(media);
     await presskit.save();
     res.status(200).json({ message: "Press kit updated successfully", presskit, media: user.media });
   } catch (error) {
