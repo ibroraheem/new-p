@@ -29,7 +29,7 @@ router.patch('/events/:id', authorizeUser, updateEvent);
 router.get('/events/user/:userId', getUserEvents);
 router.patch('/events/:id', updateEvent);
 router.post('/testimonial/:userId', giveTestimonial);
-router.get('/testimonial/:userId', getTestimonials);
+router.get('/testimonials/:userId', getTestimonials);
 router.post('/add-media/', isEmailVerified, addMedia);
 router.delete('/events/:id', authorizeUser, deleteEvent);
 router.get('/users/:query', searchUser);
