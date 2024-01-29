@@ -6,6 +6,7 @@ const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
 const { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia } = require('../controllers/user')
 const { signup, verifyEmail, login, accountUpdate, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
 const { createEvent, getEvents, getEvent, deleteEvent, updateEvent, getUserEvents } = require('../controllers/event')
+const passport = require('../controllers/oauth')
 
 router.post('/register', [
     check('email').isEmail().withMessage('Must be a valid email address'),
@@ -32,5 +33,16 @@ router.post('/testimonial/:id', giveTestimonial);
 router.post('/add-media/', isEmailVerified, addMedia);
 router.delete('/events/:id', authorizeUser, deleteEvent);
 router.get('/users/:query', searchUser);
+router.get(
+    '/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+)
+router.get(
+    '/google/callback',
+    passport.authenticate('google', { failureRedirect: '/' }),
+    (req, res) => {
+        res.redirect('/profile')
+    }
+);
 
 module.exports = router

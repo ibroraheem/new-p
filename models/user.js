@@ -1,3 +1,5 @@
+// user.js (your User model)
+
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -13,8 +15,17 @@ const UserSchema = new mongoose.Schema({
         id: String,
         email: String
     },
+    facebook: {
+        id: String,
+        email: String
+    },
+    linkedin: {
+        id: String,
+        email: String
+    },
     isVerified: {
         type: Boolean,
+        default: false,
     },
     firstName: {
         type: String,
@@ -64,7 +75,6 @@ const UserSchema = new mongoose.Schema({
         CoverPhotoUrl: {
             type: String,
             default: " "
-
         },
         CoverPhotoName: {
             type: String,
@@ -108,16 +118,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: " "
     },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
     workStatus: {
         type: String,
     },
-},
-    { timestamps: true }
-);
+}, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
 
