@@ -45,6 +45,7 @@ const createPressKit = async (req, res) => {
   try {
     const user = req.user
     const { media, fullBio } = req.body
+    if(!media||!fullBio) return res.status(400).json({message:"Please provide all the fields"});
     let pressKit;
     if (!user) return res.status(403).json({ message: "User not found" })
     presskit = PressKit.findOne({ user: user._id })
