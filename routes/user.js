@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router();
 
 const { authorizeUser, isEmailVerified } = require('../middlewares/authorize')
-const { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia } = require('../controllers/user')
+const { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia, getTestimonials } = require('../controllers/user')
 const { signup, verifyEmail, login, accountUpdate, updateProfile, forgotPassword, resetPassword, } = require('../controllers/auth')
 const { createEvent, getEvents, getEvent, deleteEvent, updateEvent, getUserEvents } = require('../controllers/event')
 
@@ -29,6 +29,7 @@ router.patch('/events/:id', authorizeUser, updateEvent);
 router.get('/events/user/:userId', getUserEvents);
 router.patch('/events/:id', updateEvent);
 router.post('/testimonial/:userId', giveTestimonial);
+router.get('/testimonial/:userId', getTestimonials);
 router.post('/add-media/', isEmailVerified, addMedia);
 router.delete('/events/:id', authorizeUser, deleteEvent);
 router.get('/users/:query', searchUser);

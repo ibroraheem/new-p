@@ -19,6 +19,17 @@ const getUsers = async (req, res) => {
   }
 }
 
+const getTestimonials = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const testimonials = await User.find({ _id: userId }).select('testimonial').lean();
+    res.status(200).json(testimonials);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message })
+  }
+}
+
 const getUser = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id })
@@ -53,7 +64,7 @@ const createPressKit = async (req, res) => {
         media: media
       });
       await pressKit.save();
-      
+
       res.status(201).json({ message: "Created Successfully!", pressKit: pressKit });
     }
   } catch (error) {
@@ -165,4 +176,4 @@ const searchUser = async (req, res) => {
 }
 
 
-module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia } 
+module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia, getTestimonials } 
