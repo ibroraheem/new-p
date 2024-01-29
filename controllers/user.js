@@ -81,7 +81,7 @@ const getPressKit = async (req, res) => {
     const pressKit = await PressKit.findOne({ user: req.params.userId })
       .populate({
         path: 'user',
-        select: 'firstName lastName role topics bio socials media'
+        select: 'firstName lastName role topics bio socials media testimonials'
       })
       .exec();
 

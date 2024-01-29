@@ -10,13 +10,6 @@ const PressKitSchema = new mongoose.Schema({
     fullBio: {
         type: String,
     },
-
-    testimonials: [
-        {
-            name: { type: String, default: "" },
-            content: { type: String, default: "" },
-        },
-    ],
 }, { timestamps: true });
 
 const PressKit = mongoose.model('PressKit', PressKitSchema);
