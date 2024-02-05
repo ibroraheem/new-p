@@ -45,7 +45,7 @@ const createPressKit = async (req, res) => {
   try {
     const user = req.user
     const { media, fullBio } = req.body
-    if(!media||!fullBio) return res.status(400).json({message:"Please provide all the fields"});
+    if (!media || !fullBio) return res.status(400).json({ message: "Please provide all the fields" });
     let pressKit;
     if (!user) return res.status(403).json({ message: "User not found" })
     presskit = PressKit.findOne({ user: user._id })
@@ -106,10 +106,10 @@ const updatePresskit = async (req, res) => {
     if (!presskit) {
       return res.status(404).json({ message: "Press kit not found" });
     }
-    if (fullBio) { 
+    if (fullBio) {
       presskit.fullBio = fullBio;
     }
-    if (media) { 
+    if (media) {
       presskit.media.push(media);
     }
     await presskit.save();
@@ -119,6 +119,22 @@ const updatePresskit = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const deletePresskitMedia = async (req, res) => {
+  try {
+    const user = req.user;
+    const { mediaIndex } = req.body;
+    if (!user) return res.status(403).json({ message: "User not found" });
+    const presskit = await PressKit.findOne({ user: user._id });
+    if (!presskit) return res.status(404).json({ message: "Presskit not found" });
+    presskit.media.splice(mediaIndex, 1);
+    await presskit.save();
+    res.status(200).json({ message: "Media deleted successfully", presskit });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+}
 
 const giveTestimonial = async (req, res) => {
   const { name, testimonialText } = req.body;
@@ -181,4 +197,4 @@ const searchUser = async (req, res) => {
 }
 
 
-module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia, getTestimonials } 
+module.exports = { searchUser, getUsers, getUser, createPressKit, getPressKit, updatePresskit, giveTestimonial, addMedia, getTestimonials, deletePresskitMedia } 
